@@ -617,7 +617,7 @@ public class LookCode extends JFrame {
 		
 		static String  portnum;
 		ObjectOutputStream os = null;//ㅇ
-
+   
 		ObjectInputStream is = null;
 
 		//static int[][] arrayB = ServerLookCode.gameboardA;

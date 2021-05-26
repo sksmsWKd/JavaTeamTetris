@@ -306,7 +306,7 @@ public class ServerLookCode extends JFrame {
 						g.fill3DRect(x * blocksize + 20, y * blocksize + 60, blocksize, blocksize, true);
 					}
 				}
-			}
+			}   
 			g.setColor(Color.blue);
 			for (int y = 0; y < 29; y++) {
 				for (int x = 1; x < 20; x++) {
