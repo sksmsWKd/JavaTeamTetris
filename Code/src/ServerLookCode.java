@@ -7,6 +7,7 @@ import javax.swing.event.*;
 
 
 import java.util.*;
+import java.util.Timer;
 import java.io.*;
 import java.net.*;
 
@@ -19,8 +20,8 @@ public class ServerLookCode extends JFrame {
 	TetrisThread tThread;
 	Server tserver = new Server();
 	 private Image backgroundImage;
-	 
-
+	 Timer timer = new Timer();
+	
 
 	static int blocksize = 20;
 
@@ -312,7 +313,7 @@ public class ServerLookCode extends JFrame {
 				for (int x = 1; x < 20; x++) {
 					if (Server.arrayA[y][x] == 1) {
 						g.fill3DRect(640+(x * blocksize + 20), y * blocksize + 60, blocksize, blocksize, true);
-					}// 상대의 화면 그리기
+					}
 				}
 			}
 		}
@@ -580,28 +581,77 @@ public class ServerLookCode extends JFrame {
 	}
 
 	class TetrisThread extends Thread {
+		 int speed =500;
 		TetrisPanel TP = new TetrisPanel();
 		//TetrisPanel2 TP2 = new TetrisPanel2();
 		public void run() {
-			while (true) {
-				try {
-					while(Server.port==null) {
-						 tThread.interrupt();
-						 
-						 if(Server.port!=null) {
-								tThread.run();
-							}
+			 
+			  TimerTask task1 = new TimerTask() {
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						   speed = 400;
+						
 					}
 					
-					sleep(500);
-					if (limit == false) // limit이 false일 경우에만 작동. true가 되면 테트리스 작동중지
-						TP.down();
-				} catch (InterruptedException e) {
-					return;
-				}
+				};
+				
+				TimerTask task2 = new TimerTask() {
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						 speed = 300;
+					}
+					
+				};
+				TimerTask task3 = new TimerTask() {
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						 speed = 220;
+					}
+					
+				};
+				TimerTask task4 = new TimerTask() {
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						 speed = 140;
+					}
+					
+				};
+				
+				timer.schedule(task1, 5000);
+				timer.schedule(task2, 10000);
+				timer.schedule(task3, 15000);
+				timer.schedule(task4, 20000);
+			while (true) {
+				try {
+				while(Server.port==null) {
+					 tThread.interrupt();
+					 
+					 if(Server.port!=null) {
+							tThread.run();
+						}
+				}	
+			
+				sleep(speed);
+				
+				
+				
+				
+				if (limit == false) // limit이 false일 경우에만 작동. true가 되면 테트리스 작동중지
+					TP.down();
+			} catch (InterruptedException e) {
+				return;
 			}
 		}
 	}
+}
 
 	////
 	static class Server extends Thread {
@@ -641,11 +691,11 @@ public class ServerLookCode extends JFrame {
 				
 					is = new ObjectInputStream(s.getInputStream());
 					arrayA = (int[][]) is.readObject(); //입-b - 클라
-					// 클라이언트의 정보를 inputstream 로 받아옴
+			
 					
 					os = new ObjectOutputStream(s.getOutputStream());
 					os.writeObject(array2); 
-					// 서버의 배열상태 전송
+				
 					
 					
 					//System.out.println(Arrays.deepToString(arrayA));

@@ -7,6 +7,7 @@ import javax.swing.event.*;
 
 
 import java.util.*;
+import java.util.Timer;
 import java.io.*;
 import java.net.*;
 import java.sql.ClientInfoStatus;
@@ -20,8 +21,9 @@ public class LookCode extends JFrame {
 	TetrisThread tThread;
 	Client tclient = new Client();
 	 private Image backgroundImage;
-
+	 JOptionPane end = new JOptionPane();
 	static int blocksize = 20;
+	 Timer timer = new Timer();
 
 	int End = 0;
 	int random = 0, random2 = (int) (Math.random() * 7);
@@ -264,9 +266,15 @@ public class LookCode extends JFrame {
 			for (int x = 1; x < 12; x++) {
 				if (gameboardB[2][x] == 1) {
 					limit = true;
+					//gameOver();
 				}
 			}
 
+		}
+		
+		public void gameOver() {
+			end.showMessageDialog(null, "게임 끝");
+			
 		}
 
 		// 한 행이 모두 블록으로 채워진 경우 블록들 제거(채워지지않은 경우 블록 떨어지도록)
@@ -585,10 +593,55 @@ public class LookCode extends JFrame {
 	}
 
 	class TetrisThread extends Thread {
+		 int speed =500;
 		TetrisPanel TP = new TetrisPanel();
 		//TetrisPanel2 TP2 = new TetrisPanel2();
 		
 		public void run() {
+			 
+			  TimerTask task1 = new TimerTask() {
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						   speed = 400;
+						
+					}
+					
+				};
+				
+				TimerTask task2 = new TimerTask() {
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						 speed = 300;
+					}
+					
+				};
+				TimerTask task3 = new TimerTask() {
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						 speed = 220;
+					}
+					
+				};
+				TimerTask task4 = new TimerTask() {
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						 speed = 140;
+					}
+					
+				};
+				
+				timer.schedule(task1, 5000);
+				timer.schedule(task2, 10000);
+				timer.schedule(task3, 15000);
+				timer.schedule(task4, 20000);
 			while (true) {
 				try {
 					while(Client.portnum==null) {
@@ -599,7 +652,8 @@ public class LookCode extends JFrame {
 							}
 					}
 					
-					sleep(500);
+
+					sleep(speed);
 					if (limit == false) // limit이 false일 경우에만 작동. true가 되면 테트리스 작동중지
 						TP.down();
 				} catch (InterruptedException e) {
@@ -645,12 +699,12 @@ public class LookCode extends JFrame {
 					os = new ObjectOutputStream(s.getOutputStream());
 					os.writeObject(array); //출-b - 클라
 					
-
-				
+					
+					
 					
 					is = new ObjectInputStream(s.getInputStream());
 					arrayB = (int[][]) is.readObject(); //입 -a  -서버
-					//int [][] 배열을 outputtstream 객체에 담아 서버로 전송
+					
 					
 
 					
