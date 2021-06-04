@@ -637,11 +637,21 @@ public class LookCode extends JFrame {
 					}
 					
 				};
+				TimerTask task5 = new TimerTask() {
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						 speed = 140;
+					}
+					
+				};
 				
 				timer.schedule(task1, 5000);
 				timer.schedule(task2, 10000);
 				timer.schedule(task3, 15000);
 				timer.schedule(task4, 20000);
+				timer.schedule(task5, 25000);
 			while (true) {
 				try {
 					while(Client.portnum==null) {
