@@ -38,7 +38,7 @@ public class LookCode extends JFrame {
 
 	// 블록들의 좌표 저장
 	int curX[] = new int[4], curY[] = new int[4];
-
+  
 	int blocks[][][][] = { {
 			//■
 			//■■■
