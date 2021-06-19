@@ -733,3 +733,86 @@ public class LookCode extends JFrame {
 
 	}
 }
+
+/*
+ * 
+ * ㅇ소켓이란?
+
+-통신에 필요한 정보를 담고 있는 객체
+
+ㅇ포트번호 란?
+(통신하는 프로그램을 구분하기 위한 식별번호)
+
+ㅇ서버 소켓 주의점
+-서버측 프로그램을 작성할 때 사용.
+-다른 프로그램과 중복되지 않도록 포트 번호를 지정
+
+ㅇ클라이언트 소켓 주의점
+-Socket 클래스를 이용하여 만듬
+-접속하려는 상대편 ip 주소 입력(같은 네트워크 안에서)
+-서버 소켓의 포트 번호와 동일한 번호 사용
+-사용 중인 포트 번호를 중복 사용 불가
+-기존에 특정 목적으로 널리 이용되는 포트 번호도 사용하지말기
+
+ㅇ테트리스 게임판은 이차원 배열.
+소켓통신에서 이차원배열의 전송은 파싱으로도 가능한데
+테트리스의 블럭 속도가 빨라지면 이차원배열->문자열->파싱->이차원배열 변환시 속도가 느림
+그래서 이용한것 ->
+
+ㅇ자바 객체 직렬화/역직렬화 방법
+
+ObjectInputStream   &
+ObjectOutputStream
+
+ㅇ직렬화 /역직렬화란?
+객체를 데이터스트림에 쓰기위한 연속적인 데이터으로 만드는 것
+->객체를 순차적인 바이트로 표현한 데이터가됨
+
+직렬화(스트림에 객체를 탑재)에는 ObjectInputStream을 사용하고 
+역직렬화(스트림으로부터 객체를 받음)에는 ObjectOutputStream을 사용한다.
+
+ObjectInputStream과 ObjectOutputStream은 각각 InputStream / OutputStream을 직접 상속받지만 추상클래스이다. 그래서 객체를 생성할 때 입출력(직렬화/역직렬화)할 스트림을 지정해주어야 한다.
+
+InputStream 과 OutputStream는 소켓에서 정보를 받아온다.
+
+
+
+static int[][]arrayA = new int [29][20];(서)
+static int[][]arrayB = new int [29][20];(클)
+//서버와 클라이언트에 빈 게임판 2차원배열 생성
+
+static int [][] array2 = gameboardA;(서)
+static int[][]array = gameboardB;(클)
+//게임 판 정보를 서버클래스/클라이언트 클래스에 저장
+
+ㅇ서버측
+is = new ObjectInputStream(s.getInputStream());			arrayA = (int[][]) is.readObject(); //입-b - 클라
+//빈 배열에 inputstream 으로 들어오는 데이터를 역직렬화 하여
+//int형 이차원배열로 변환, 빈 배열에 저장		
+
+os = new ObjectOutputStream(s.getOutputStream());
+os.writeObject(array2); 
+
+//스트림을 따라 들어온 데이터를 직렬화 하여
+//연속적인 바이트 데이터로 소켓에 담아 전송
+
+ㅇ클라이언트측
+os = new ObjectOutputStream(s.getOutputStream());
+os.writeObject(array); //출-b - 클라
+//스트림을 따라 들어온 데이터를 직렬화 하여
+//연속적인 바이트 데이터로 소켓에 담아 전송
+
+is = new ObjectInputStream(s.getInputStream());
+arrayB = (int[][]) is.readObject(); //입 -a  -서버
+//빈 배열에 inputstream 으로 들어오는 데이터를 역직렬화 하여
+//int형 이차원배열로 변환, 빈 배열에 저장	
+
+ㅇ난이도 조절
+1.TimerTask클래스를 이용한 작업 스캐줄링을 이용.
+2.schedule() 메소드는 특정한 시간에 원하는 작업을 수행하고자 할 때 사용하는 메소드
+3.지정한 시간(ms) 이 지나면, 작업(task) 수행하도록 구현
+4.시간 마다 각각 다른 수치를 주어서, 그 수치로 스레드에 sleep메서드의 인자로 사용
+5.사용자가 ip번호나 포트 넘버를 넣지 않으면 스레드에 interrupt() 메서드를 사용하여 작업을 수행하지 않도록 함
+
+ */
+
