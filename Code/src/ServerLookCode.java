@@ -21,7 +21,7 @@ public class ServerLookCode extends JFrame {
 	Server tserver = new Server();
 	 private Image backgroundImage;
 	 Timer timer = new Timer();
-	
+	 JOptionPane end = new JOptionPane();
 
 	static int blocksize = 20;
 
@@ -139,7 +139,7 @@ public class ServerLookCode extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(null);
 		setResizable(false);
-		setSize(1280, 720);
+		setSize(1280, 740);
 		setLocationRelativeTo(null);
 		setVisible(true);
 		
@@ -151,7 +151,7 @@ public class ServerLookCode extends JFrame {
 		tThread = new TetrisThread();
 
 		// 패널 사이즈
-		TP.setSize(1280, 720);
+		TP.setSize(1280, 740);
 		TP.setBackground(Color.gray);
 		//TP2.setSize(640, 720);
 		//TP2.setBackground(Color.green);
@@ -162,6 +162,8 @@ public class ServerLookCode extends JFrame {
 
 		scoreInt.setFont(new Font("arial", Font.PLAIN, 30));
 		scoreString.setFont(new Font("arial", Font.PLAIN, 30));
+		scoreInt.setForeground(Color.white);
+		scoreString.setForeground(Color.white);
 
 		// 키 입력
 		TP.addKeyListener(new KeyAdapter() {
@@ -206,11 +208,11 @@ public class ServerLookCode extends JFrame {
 			TP.requestFocus(true);
 			super.paintComponent(g);
 
-			scoreInt.setLocation(525, 300);
+			scoreInt.setLocation(525, 420);
 			scoreString.setLocation(480, 250);
 
 			TP.add(scoreInt);
-			TP.add(scoreString);
+			//TP.add(scoreString);
 
 			scoreInt.setText(Integer.toString(score * 100));
 			scoreString.setText("SCORE");
@@ -218,7 +220,7 @@ public class ServerLookCode extends JFrame {
 			g.setColor(Color.ORANGE); // 새로 떨어지는 블럭,미리보기  블럭 색깔
 			
 			try {
-				backgroundImage = ImageIO.read(new File("bg.jpg"));
+				backgroundImage = ImageIO.read(new File("duo2.png"));
 				 g.drawImage(backgroundImage, 0, 0, null);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
@@ -267,9 +269,23 @@ public class ServerLookCode extends JFrame {
 			for (int x = 1; x < 12; x++) {
 				if (gameboardA[2][x] == 1) {
 					limit = true;
+					gameOver();
+				}else if (Server.arrayA[2][x] == 1) {
+					limit = true;
+					gamewin();
 				}
+				
 			}
 
+		}
+		
+		public void gameOver() {
+			end.showMessageDialog(null, "패배 ,나가세요");
+			
+		}
+		public void gamewin() {
+			end.showMessageDialog(null, "승리 ,나가세요");
+			
 		}
 
 		// 한 행이 모두 블록으로 채워진 경우 블록들 제거(채워지지않은 경우 블록 떨어지도록)
@@ -490,21 +506,43 @@ public class ServerLookCode extends JFrame {
 		public void makeBorder(Graphics g) {
 			g.setColor(Color.GRAY);
 
-			g.draw3DRect(30, 100, 5, 555, true); // 왼쪽기둥
-			g.draw3DRect(425, 100, 5, 555, true); // 오른쪽기둥
+			//g.draw3DRect(30, 100, 5, 555,true ); // 왼쪽기둥
+			for(int i = 40 ; i <425 ; i=i+20) {
+				g.drawRect(i, 100, 0, 540);
+				
+			}//세로선
+			
+			for(int i = 100 ; i <660 ; i=i+20) {
+				g.drawRect(40, i, 380, 0);
+				
+			}//가로선
+			
+			
+			for(int i = 660 ; i <1080 ; i=i+20) {
+				g.drawRect(i, 100, 0, 540);
+				
+			}//세로선
+			
+			for(int i = 100 ; i <660 ; i=i+20) {
+				g.drawRect(680, i, 380, 0);
+				
+			}//가로선
+			//g.draw3DRect(425, 100, 5, 555, true); // 오른쪽기둥
 
 			//(x, y, 길이, 굵기)
-			g.draw3DRect(30, 650, 400, 5, true); // 바닥
-			g.draw3DRect(30, 100, 400, 5, true); // 천장
+			//g.draw3DRect(30, 650, 400, 5, true); // 바닥
+			
+			
+			//g.draw3DRect(30, 100, 400, 5, true); // 천장
 			
 			g.setColor(Color.blue);
 
-			g.draw3DRect(670, 100, 5, 555, true); // 왼쪽기둥
-			g.draw3DRect(1065, 100, 5, 555, true); // 오른쪽기둥
+			//g.draw3DRect(670, 100, 5, 555, true); // 왼쪽기둥
+			//g.draw3DRect(1065, 100, 5, 555, true); // 오른쪽기둥
 
 			//(x, y, 길이, 굵기)
-			g.draw3DRect(670, 650, 400, 5, true); // 바닥
-			g.draw3DRect(670, 100, 400, 5, true); // 천장
+			//g.draw3DRect(670, 650, 400, 5, true); // 바닥
+			//g.draw3DRect(670, 100, 400, 5, true); // 천장
 		}
 
 		void down() {
@@ -624,11 +662,22 @@ public class ServerLookCode extends JFrame {
 					}
 					
 				};
-				
-				timer.schedule(task1, 5000);
-				timer.schedule(task2, 10000);
-				timer.schedule(task3, 15000);
-				timer.schedule(task4, 20000);
+				TimerTask task5 = new TimerTask() {
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						 speed = 100;
+					}
+					
+				};
+				if(Server.port!=null) {
+				timer.schedule(task1, 10000);
+				timer.schedule(task2, 20000);
+				timer.schedule(task3, 30000);
+				timer.schedule(task4, 40000);
+				timer.schedule(task5, 50000);
+				}
 			while (true) {
 				try {
 				while(Server.port==null) {
