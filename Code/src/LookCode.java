@@ -202,7 +202,7 @@ public class LookCode extends JFrame {
 	class TetrisPanel extends JPanel {
 		ImageIcon win = new ImageIcon("win.jpg");
 		ImageIcon defeat = new ImageIcon("defeat.jpg");
-		
+		 
 		public void paintComponent(Graphics g) {
 
 			int cnt = 0, cnt2 = 0;

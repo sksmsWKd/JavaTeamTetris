@@ -200,7 +200,7 @@ public class ServerLookCode extends JFrame {
 		tserver.run();
 		//tserver.paintComponent();
 	}
-
+ 
 	class TetrisPanel extends JPanel {
 		
 		ImageIcon win = new ImageIcon("win.jpg");
