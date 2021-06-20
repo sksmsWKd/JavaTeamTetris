@@ -139,7 +139,7 @@ public class LookCode extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(null);
 		setResizable(false);
-		setSize(1280, 720);
+		setSize(1280, 740);
 		setLocationRelativeTo(null);
 		setVisible(true);
 		
@@ -148,7 +148,7 @@ public class LookCode extends JFrame {
 		tThread = new TetrisThread();
 
 		// 패널 사이즈
-		TP.setSize(1280, 720);
+		TP.setSize(1280, 740);
 		TP.setBackground(Color.CYAN);
 //		TP2.setSize(640, 720);
 //		TP2.setBackground(Color.green);
@@ -160,7 +160,8 @@ public class LookCode extends JFrame {
 
 		scoreInt.setFont(new Font("arial", Font.PLAIN, 30));
 		scoreString.setFont(new Font("arial", Font.PLAIN, 30));
-
+		scoreInt.setForeground(Color.white);
+		scoreString.setForeground(Color.white);
 		// 키 입력
 		TP.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
@@ -204,20 +205,21 @@ public class LookCode extends JFrame {
 			int cnt = 0, cnt2 = 0;
 			TP.requestFocus(true);
 			super.paintComponent(g);
-
-			scoreInt.setLocation(525, 300);
+			
+			scoreInt.setLocation(540, 420);
 			scoreString.setLocation(480, 250);
-
+			
 			TP.add(scoreInt);
-			TP.add(scoreString);
+			//TP.add(scoreString);
 
 			scoreInt.setText(Integer.toString(score * 100));
+			
 			scoreString.setText("SCORE");
 
 			g.setColor(Color.ORANGE); // 새로 떨어지는 블럭,미리보기  블럭 색깔
 			
 			try {
-				backgroundImage = ImageIO.read(new File("bg.jpg"));
+				backgroundImage = ImageIO.read(new File("duo2.png"));
 				 g.drawImage(backgroundImage, 0, 0, null);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
@@ -255,7 +257,7 @@ public class LookCode extends JFrame {
 			for (int a = 0; a < 4; a++) {
 				for (int b = 0; b < 4; b++) {
 					if (blocks[random2][0][a][b] == 1) {
-						g.fill3DRect(b * blocksize + 500, a * blocksize + 130, blocksize, blocksize, true);
+						g.fill3DRect(b * blocksize + 520, a * blocksize + 140, blocksize, blocksize, true);
 					}
 				}
 			}
@@ -266,14 +268,21 @@ public class LookCode extends JFrame {
 			for (int x = 1; x < 12; x++) {
 				if (gameboardB[2][x] == 1) {
 					limit = true;
-					//gameOver();
+					gameOver();
+				}else if (Client.arrayB[2][x] == 1) {
+					limit = true;
+					gamewin();
 				}
 			}
 
 		}
 		
 		public void gameOver() {
-			end.showMessageDialog(null, "게임 끝");
+			end.showMessageDialog(null, "패배 ,나가세요");
+			
+		}
+		public void gamewin() {
+			end.showMessageDialog(null, "승리 ,나가세요");
 			
 		}
 
@@ -498,21 +507,43 @@ public class LookCode extends JFrame {
 		public void makeBorder(Graphics g) {
 			g.setColor(Color.GRAY);
 
-			g.draw3DRect(30, 100, 5, 555, true); // 왼쪽기둥
-			g.draw3DRect(425, 100, 5, 555, true); // 오른쪽기둥
+			//g.draw3DRect(30, 100, 5, 555,true ); // 왼쪽기둥
+			for(int i = 40 ; i <425 ; i=i+20) {
+				g.drawRect(i, 100, 0, 540);
+				
+			}//세로선
+			
+			for(int i = 100 ; i <660 ; i=i+20) {
+				g.drawRect(40, i, 380, 0);
+				
+			}//가로선
+			
+			
+			for(int i = 660 ; i <1080 ; i=i+20) {
+				g.drawRect(i, 100, 0, 540);
+				
+			}//세로선
+			
+			for(int i = 100 ; i <660 ; i=i+20) {
+				g.drawRect(680, i, 380, 0);
+				
+			}//가로선
+			//g.draw3DRect(425, 100, 5, 555, true); // 오른쪽기둥
 
 			//(x, y, 길이, 굵기)
-			g.draw3DRect(30, 650, 400, 5, true); // 바닥
-			g.draw3DRect(30, 100, 400, 5, true); // 천장
+			//g.draw3DRect(30, 650, 400, 5, true); // 바닥
+			
+			
+			//g.draw3DRect(30, 100, 400, 5, true); // 천장
 			
 			g.setColor(Color.blue);
 
-			g.draw3DRect(670, 100, 5, 555, true); // 왼쪽기둥
-			g.draw3DRect(1065, 100, 5, 555, true); // 오른쪽기둥
+			//g.draw3DRect(670, 100, 5, 555, true); // 왼쪽기둥
+			//g.draw3DRect(1065, 100, 5, 555, true); // 오른쪽기둥
 
 			//(x, y, 길이, 굵기)
-			g.draw3DRect(670, 650, 400, 5, true); // 바닥
-			g.draw3DRect(670, 100, 400, 5, true); // 천장
+			//g.draw3DRect(670, 650, 400, 5, true); // 바닥
+			//g.draw3DRect(670, 100, 400, 5, true); // 천장
 		}
 
 		void down() {
@@ -642,16 +673,18 @@ public class LookCode extends JFrame {
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
-						 speed = 140;
+						 speed = 100;
 					}
 					
 				};
 				
-				timer.schedule(task1, 5000);
-				timer.schedule(task2, 10000);
-				timer.schedule(task3, 15000);
-				timer.schedule(task4, 20000);
-				timer.schedule(task5, 25000);
+				if(Client.portnum!=null) {
+				timer.schedule(task1, 10000);
+				timer.schedule(task2, 20000);
+				timer.schedule(task3, 30000);
+				timer.schedule(task4, 40000);
+				timer.schedule(task5, 50000);
+				}
 			while (true) {
 				try {
 					while(Client.portnum==null) {
