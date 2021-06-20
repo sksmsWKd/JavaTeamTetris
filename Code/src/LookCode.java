@@ -200,6 +200,9 @@ public class LookCode extends JFrame {
 	}
 
 	class TetrisPanel extends JPanel {
+		ImageIcon win = new ImageIcon("win.jpg");
+		ImageIcon defeat = new ImageIcon("defeat.jpg");
+		
 		public void paintComponent(Graphics g) {
 
 			int cnt = 0, cnt2 = 0;
@@ -278,11 +281,14 @@ public class LookCode extends JFrame {
 		}
 		
 		public void gameOver() {
-			end.showMessageDialog(null, "패배 ,나가세요");
-			
+			//end.showMessageDialog(null, "패배 ,나가세요");
+			end.showMessageDialog(null, " ", "당신의 패배 ",0, defeat);
+			 System.exit(0);
 		}
 		public void gamewin() {
-			end.showMessageDialog(null, "승리 ,나가세요");
+			//end.showMessageDialog(null, "승리 ,나가세요");
+			end.showMessageDialog(null, " ", "당신의 승리 ",0, win);
+			 System.exit(0);
 			
 		}
 

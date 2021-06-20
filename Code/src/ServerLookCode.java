@@ -202,6 +202,10 @@ public class ServerLookCode extends JFrame {
 	}
 
 	class TetrisPanel extends JPanel {
+		
+		ImageIcon win = new ImageIcon("win.jpg");
+		ImageIcon defeat = new ImageIcon("defeat.jpg");
+		
 		public void paintComponent(Graphics g) {
 			 
 			int cnt = 0, cnt2 = 0;
@@ -267,6 +271,7 @@ public class ServerLookCode extends JFrame {
 		// 벽이 천장에 닿으면 게임 오버
 		public void gameOverCheck() {
 			for (int x = 1; x < 12; x++) {
+				
 				if (gameboardA[2][x] == 1) {
 					limit = true;
 					gameOver();
@@ -280,12 +285,16 @@ public class ServerLookCode extends JFrame {
 		}
 		
 		public void gameOver() {
-			end.showMessageDialog(null, "패배 ,나가세요");
+			//end.showMessageDialog(null, "패배 ,나가세요");
+			 end.showMessageDialog(null, " ", " 당신의 패배",0, defeat);
+			 System.exit(0);
+			
 			
 		}
 		public void gamewin() {
-			end.showMessageDialog(null, "승리 ,나가세요");
-			
+			//end.showMessageDialog(null, "승리 ,나가세요");
+			end.showMessageDialog(null, " ", "당신의 승리 ",0, win);
+			 System.exit(0);
 		}
 
 		// 한 행이 모두 블록으로 채워진 경우 블록들 제거(채워지지않은 경우 블록 떨어지도록)
