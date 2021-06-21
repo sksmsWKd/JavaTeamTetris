@@ -139,7 +139,7 @@ public class LookCode extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(null);
 		setResizable(false);
-		setSize(1280, 740);
+		setSize(1300, 740);
 		setLocationRelativeTo(null);
 		setVisible(true);
 		
@@ -148,7 +148,7 @@ public class LookCode extends JFrame {
 		tThread = new TetrisThread();
 
 		// 패널 사이즈
-		TP.setSize(1280, 740);
+		TP.setSize(1300, 740);
 		TP.setBackground(Color.CYAN);
 //		TP2.setSize(640, 720);
 //		TP2.setBackground(Color.green);
